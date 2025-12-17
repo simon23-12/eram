@@ -197,7 +197,9 @@
 
         <div class="instructions">
             <strong>📜 Your Challenge:</strong><br>
-            Sort the arguments about Affirmative Action into PROs (positive aspects) and CONs (negative aspects or criticisms). Drag each argument card to the correct category. When all arguments are correctly sorted, you'll unlock the next room!
+            Sort the arguments about Affirmative Action into PROs (positive aspects) and CONs (negative aspects or criticisms).<br><br>
+            <strong>💻 Desktop:</strong> Drag and drop the cards<br>
+            <strong>📱 iPad/Mobile:</strong> Tap a card to select it (green border), then tap a category box to place it
         </div>
 
         <div class="arguments-pool" id="argumentsPool">
@@ -252,46 +254,100 @@
 
     <script>
         let draggedElement = null;
+        let selectedCard = null;
 
-        // Make cards draggable
-        document.querySelectorAll('.argument-card').forEach(card => {
-            card.addEventListener('dragstart', function(e) {
-                draggedElement = this;
-                this.classList.add('dragging');
+        // Initialize drag and drop functionality
+        function initializeDragAndDrop() {
+            // Make cards draggable
+            document.querySelectorAll('.argument-card').forEach(card => {
+                // Set draggable attribute
+                card.setAttribute('draggable', 'true');
+                
+                card.addEventListener('dragstart', function(e) {
+                    draggedElement = this;
+                    this.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/html', this.innerHTML);
+                });
+
+                card.addEventListener('dragend', function(e) {
+                    this.classList.remove('dragging');
+                });
+
+                // Click-to-select for touch devices
+                card.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (selectedCard) {
+                        selectedCard.style.border = '2px solid #ffd700';
+                    }
+                    selectedCard = this;
+                    this.style.border = '4px solid #00ff00';
+                });
             });
 
-            card.addEventListener('dragend', function(e) {
-                this.classList.remove('dragging');
-            });
-        });
+            // Setup dropzones
+            document.querySelectorAll('.dropzone').forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    this.classList.add('drag-over');
+                });
 
-        // Setup dropzones
-        document.querySelectorAll('.dropzone').forEach(zone => {
-            zone.addEventListener('dragover', function(e) {
+                zone.addEventListener('dragleave', function(e) {
+                    this.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.remove('drag-over');
+                    
+                    if (draggedElement) {
+                        this.appendChild(draggedElement);
+                        draggedElement.style.border = '2px solid #ffd700';
+                    }
+                });
+
+                // Click functionality for touch devices
+                zone.addEventListener('click', function(e) {
+                    if (selectedCard) {
+                        this.appendChild(selectedCard);
+                        selectedCard.style.border = '2px solid #ffd700';
+                        selectedCard = null;
+                    }
+                });
+            });
+
+            // Allow returning cards to pool
+            const argumentsPool = document.getElementById('argumentsPool');
+            
+            argumentsPool.addEventListener('dragover', function(e) {
                 e.preventDefault();
-                this.classList.add('drag-over');
+                e.dataTransfer.dropEffect = 'move';
             });
 
-            zone.addEventListener('dragleave', function(e) {
-                this.classList.remove('drag-over');
-            });
-
-            zone.addEventListener('drop', function(e) {
+            argumentsPool.addEventListener('drop', function(e) {
                 e.preventDefault();
-                this.classList.remove('drag-over');
-                this.appendChild(draggedElement);
+                e.stopPropagation();
+                
+                if (draggedElement) {
+                    this.appendChild(draggedElement);
+                    draggedElement.style.border = '2px solid #ffd700';
+                }
             });
-        });
 
-        // Allow returning cards to pool
-        document.getElementById('argumentsPool').addEventListener('dragover', function(e) {
-            e.preventDefault();
-        });
+            // Click on pool to return selected card
+            argumentsPool.addEventListener('click', function(e) {
+                if (selectedCard && !e.target.classList.contains('argument-card')) {
+                    this.appendChild(selectedCard);
+                    selectedCard.style.border = '2px solid #ffd700';
+                    selectedCard = null;
+                }
+            });
+        }
 
-        document.getElementById('argumentsPool').addEventListener('drop', function(e) {
-            e.preventDefault();
-            this.appendChild(draggedElement);
-        });
+        // Initialize when page loads
+        initializeDragAndDrop();
 
         function checkSorting() {
             const dropzones = document.querySelectorAll('.dropzone');
