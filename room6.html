@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room 6: Freedom Exit - Final Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ff6b6b;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .word-slot {
+            background: rgba(139, 0, 0, 0.3);
+            padding: 20px;
+            border: 3px dashed #ffd700;
+            border-radius: 10px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffd700;
+            text-align: center;
+        }
+
+        .word-slot.filled {
+            background: rgba(0, 100, 0, 0.3);
+            border-style: solid;
+            border-color: #00ff00;
+        }
+
+        .clue-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #ffd700;
+        }
+
+        .clue {
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .clue-number {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .word-bank {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .word-bank h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .word-button {
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            color: white;
+            border: 2px solid #ffd700;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .word-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .word-button.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        button.submit {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            color: white;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button.submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+        }
+
+        .final-message {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1a472a;
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            border: 4px solid #00ff00;
+            display: none;
+        }
+
+        .final-message h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .puzzle-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎄 Room 6: Freedom Exit 🎄</h1>
+        <div class="subtitle">The Final Challenge - Master Puzzle</div>
+
+        <div class="instructions">
+            <strong>📜 Your Final Challenge:</strong><br>
+            This is it - the final door to freedom! Use everything you've learned to solve this crossword-style puzzle. Each clue references a different topic we covered. Click on a word from the word bank, then click on the numbered slot where it belongs. Get all six correct to escape!
+        </div>
+
+        <div class="clue-section">
+            <h3 style="color: #ffd700; margin-bottom: 20px;">📋 Clues:</h3>
+            <div class="clue">
+                <span class="clue-number">1.</span> The concept of opportunity and success through hard work in America (Two words - use hyphen)
+            </div>
+            <div class="clue">
+                <span class="clue-number">2.</span> The woman whose bus protest sparked the Montgomery movement (Two words - use hyphen)
+            </div>
+            <div class="clue">
+                <span class="clue-number">3.</span> The First Amendment protects freedom of speech, religion, press, and this gathering right
+            </div>
+            <div class="clue">
+                <span class="clue-number">4.</span> Policy designed to increase diversity and correct historical discrimination (Two words - use hyphen)
+            </div>
+            <div class="clue">
+                <span class="clue-number">5.</span> Clinton's term for America's commitment to justice and ideals (Two words - use hyphen)
+            </div>
+            <div class="clue">
+                <span class="clue-number">6.</span> Economic system based on supply, demand, and limited government intervention (Two words - use hyphen)
+            </div>
+        </div>
+
+        <div class="word-bank">
+            <h3>🎯 Word Bank (Click to Select)</h3>
+            <button class="word-button" onclick="selectWord('American-Dream')">American-Dream</button>
+            <button class="word-button" onclick="selectWord('Rosa-Parks')">Rosa-Parks</button>
+            <button class="word-button" onclick="selectWord('Assembly')">Assembly</button>
+            <button class="word-button" onclick="selectWord('Affirmative-Action')">Affirmative-Action</button>
+            <button class="word-button" onclick="selectWord('American-Exceptionalism')">American-Exceptionalism</button>
+            <button class="word-button" onclick="selectWord('Free-Market')">Free-Market</button>
+        </div>
+
+        <div class="puzzle-grid">
+            <div class="word-slot" data-slot="1" onclick="placeWord(1)">1. ?</div>
+            <div class="word-slot" data-slot="2" onclick="placeWord(2)">2. ?</div>
+            <div class="word-slot" data-slot="3" onclick="placeWord(3)">3. ?</div>
+            <div class="word-slot" data-slot="4" onclick="placeWord(4)">4. ?</div>
+            <div class="word-slot" data-slot="5" onclick="placeWord(5)">5. ?</div>
+            <div class="word-slot" data-slot="6" onclick="placeWord(6)">6. ?</div>
+        </div>
+
+        <button class="submit" onclick="checkFinalPuzzle()">Unlock the Exit Door!</button>
+        <div id="message"></div>
+
+        <div class="final-message" id="finalMessage">
+            <h2>🎉 CONGRATULATIONS! 🎉</h2>
+            <p style="font-size: 1.5em; margin: 20px 0;">🎄✨ YOU'VE ESCAPED! ✨🎄</p>
+            <p>You've successfully completed Mr Fuhs' Great X-Mas Escape Room!</p>
+            <p style="margin-top: 20px;">You've demonstrated mastery of:</p>
+            <ul style="text-align: left; display: inline-block; margin: 20px auto;">
+                <li>✅ The American Dream and its evolution</li>
+                <li>✅ Civil Rights Movement history</li>
+                <li>✅ Constitutional Amendments (Bill of Rights)</li>
+                <li>✅ Affirmative Action debates</li>
+                <li>✅ Rhetorical analysis of political speeches</li>
+                <li>✅ Free market economics</li>
+            </ul>
+            <p style="margin-top: 20px; font-size: 1.3em; font-weight: bold;">Happy Holidays! 🎅🎁</p>
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Main Hall</a>
+    </div>
+
+    <script>
+        let selectedWord = null;
+        const answers = {
+            1: null,
+            2: null,
+            3: null,
+            4: null,
+            5: null,
+            6: null
+        };
+
+        const correctAnswers = {
+            1: 'American-Dream',
+            2: 'Rosa-Parks',
+            3: 'Assembly',
+            4: 'Affirmative-Action',
+            5: 'American-Exceptionalism',
+            6: 'Free-Market'
+        };
+
+        function selectWord(word) {
+            // Remove selection from all buttons
+            document.querySelectorAll('.word-button').forEach(btn => {
+                btn.style.background = 'linear-gradient(135deg, #8b0000 0%, #c41e3a 100%)';
+            });
+
+            // Select this word
+            selectedWord = word;
+            event.target.style.background = 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)';
+            event.target.style.color = '#1a472a';
+        }
+
+        function placeWord(slotNum) {
+            if (!selectedWord) {
+                alert('Please select a word from the word bank first!');
+                return;
+            }
+
+            // Check if word already used
+            if (Object.values(answers).includes(selectedWord)) {
+                alert('This word has already been placed!');
+                return;
+            }
+
+            // Place the word
+            answers[slotNum] = selectedWord;
+            const slot = document.querySelector(`[data-slot="${slotNum}"]`);
+            slot.textContent = selectedWord;
+            slot.classList.add('filled');
+
+            // Mark button as used
+            const button = Array.from(document.querySelectorAll('.word-button')).find(btn => 
+                btn.textContent === selectedWord
+            );
+            if (button) {
+                button.classList.add('used');
+                button.style.background = 'linear-gradient(135deg, #555 0%, #777 100%)';
+            }
+
+            // Reset selection
+            selectedWord = null;
+            document.querySelectorAll('.word-button').forEach(btn => {
+                if (!btn.classList.contains('used')) {
+                    btn.style.background = 'linear-gradient(135deg, #8b0000 0%, #c41e3a 100%)';
+                    btn.style.color = 'white';
+                }
+            });
+        }
+
+        function checkFinalPuzzle() {
+            const messageDiv = document.getElementById('message');
+            
+            // Check if all slots filled
+            if (Object.values(answers).includes(null)) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ Please fill all slots before checking!';
+                return;
+            }
+
+            // Check if all correct
+            let allCorrect = true;
+            for (let i = 1; i <= 6; i++) {
+                if (answers[i] !== correctAnswers[i]) {
+                    allCorrect = false;
+                    break;
+                }
+            }
+
+            if (allCorrect) {
+                messageDiv.className = 'message success';
+                messageDiv.textContent = '🎉 PERFECT! The door is unlocking...';
+                
+                setTimeout(() => {
+                    document.getElementById('finalMessage').style.display = 'block';
+                    window.scrollTo(0, document.body.scrollHeight);
+                    
+                    // Confetti effect
+                    createConfetti();
+                }, 1000);
+            } else {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ Some answers are incorrect. Review the clues carefully and try again!';
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ffd700', '#ff6b6b', '#00ff00', '#ffffff', '#ff1493'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '-10px';
+                    confetti.style.opacity = '1';
+                    confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                    confetti.style.transition = 'all 3s ease-out';
+                    confetti.style.zIndex = '9999';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.style.top = window.innerHeight + 'px';
+                        confetti.style.opacity = '0';
+                    }, 50);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }, i * 30);
+            }
+        }
+    </script>
+</body>
+</html>

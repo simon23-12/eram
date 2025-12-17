@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room 2: Rights Corridor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ff6b6b;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .timeline-area {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .dropzone {
+            min-height: 80px;
+            background: rgba(139, 0, 0, 0.3);
+            border: 3px dashed #ffd700;
+            border-radius: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .dropzone.drag-over {
+            background: rgba(255, 215, 0, 0.3);
+            border-style: solid;
+        }
+
+        .dropzone.filled {
+            background: rgba(0, 100, 0, 0.3);
+            border-color: #00ff00;
+        }
+
+        .event-card {
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+            cursor: move;
+            margin: 10px;
+            display: inline-block;
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+
+        .event-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .event-card.dragging {
+            opacity: 0.5;
+        }
+
+        .events-pool {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            min-height: 100px;
+        }
+
+        .date-label {
+            font-size: 1.3em;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            color: white;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .hint {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            .container {
+                padding: 20px;
+            }
+            .event-card {
+                font-size: 1em;
+                padding: 12px 15px;
+            }
+            .date-label {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✊ Room 2: Rights Corridor ✊</h1>
+        <div class="subtitle">Topic: Civil Rights Movement</div>
+
+        <div class="instructions">
+            <strong>📜 Your Challenge:</strong><br>
+            Drag and drop the Civil Rights Movement events to arrange them in chronological order from earliest (1955) to latest (1964). When all events are correctly placed, the password will be revealed!
+        </div>
+
+        <div class="timeline-area">
+            <h2 style="color: #ffd700; margin-bottom: 20px;">📅 Timeline (Earliest to Latest):</h2>
+            
+            <div class="date-label">1. December 1955</div>
+            <div class="dropzone" data-event="rosa"></div>
+
+            <div class="date-label">2. 1955-1956</div>
+            <div class="dropzone" data-event="boycott"></div>
+
+            <div class="date-label">3. 1963 (Spring)</div>
+            <div class="dropzone" data-event="birmingham"></div>
+
+            <div class="date-label">4. August 1963</div>
+            <div class="dropzone" data-event="march"></div>
+
+            <div class="date-label">5. 1964</div>
+            <div class="dropzone" data-event="civilact"></div>
+
+            <div class="date-label">6. After 1964</div>
+            <div class="dropzone" data-event="continue"></div>
+        </div>
+
+        <div class="events-pool" id="eventsPool">
+            <h3 style="color: #ffd700; margin-bottom: 15px;">📋 Events (Drag These):</h3>
+            <div class="event-card" draggable="true" data-id="rosa">
+                Rosa Parks refuses to give up her seat on a bus
+            </div>
+            <div class="event-card" draggable="true" data-id="boycott">
+                Montgomery Bus Boycott takes place
+            </div>
+            <div class="event-card" draggable="true" data-id="birmingham">
+                Birmingham Campaign with nonviolent protests
+            </div>
+            <div class="event-card" draggable="true" data-id="march">
+                March on Washington - MLK delivers "I Have a Dream" speech
+            </div>
+            <div class="event-card" draggable="true" data-id="civilact">
+                Civil Rights Act is signed into law
+            </div>
+            <div class="event-card" draggable="true" data-id="continue">
+                Civil Rights Movement continues despite the new law
+            </div>
+        </div>
+
+        <button onclick="checkOrder()">Check My Timeline</button>
+        <div id="message"></div>
+
+        <div class="hint">
+            💡 <strong>Hint:</strong> Remember Rosa Parks' action was the catalyst that started it all in December 1955. The movement built momentum through boycotts, campaigns, and culminated in the March on Washington before the Civil Rights Act was signed.
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Main Hall</a>
+    </div>
+
+    <script>
+        let draggedElement = null;
+
+        // Make cards draggable
+        document.querySelectorAll('.event-card').forEach(card => {
+            card.addEventListener('dragstart', function(e) {
+                draggedElement = this;
+                this.classList.add('dragging');
+            });
+
+            card.addEventListener('dragend', function(e) {
+                this.classList.remove('dragging');
+            });
+        });
+
+        // Setup dropzones
+        document.querySelectorAll('.dropzone').forEach(zone => {
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+
+            zone.addEventListener('dragleave', function(e) {
+                this.classList.remove('drag-over');
+            });
+
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                
+                // If zone already has a card, return it to pool
+                const existingCard = this.querySelector('.event-card');
+                if (existingCard) {
+                    document.getElementById('eventsPool').appendChild(existingCard);
+                }
+                
+                // Place the dragged card here
+                this.appendChild(draggedElement);
+                this.classList.add('filled');
+            });
+        });
+
+        // Allow returning cards to pool
+        document.getElementById('eventsPool').addEventListener('dragover', function(e) {
+            e.preventDefault();
+        });
+
+        document.getElementById('eventsPool').addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.appendChild(draggedElement);
+            
+            // Remove filled class from zones
+            document.querySelectorAll('.dropzone').forEach(zone => {
+                if (!zone.querySelector('.event-card')) {
+                    zone.classList.remove('filled');
+                }
+            });
+        });
+
+        function checkOrder() {
+            const dropzones = document.querySelectorAll('.dropzone');
+            let correct = true;
+            
+            dropzones.forEach(zone => {
+                const card = zone.querySelector('.event-card');
+                if (!card || card.getAttribute('data-id') !== zone.getAttribute('data-event')) {
+                    correct = false;
+                }
+            });
+
+            const messageDiv = document.getElementById('message');
+            
+            if (correct) {
+                messageDiv.className = 'message success';
+                messageDiv.innerHTML = '🎉 Perfect! You\'ve arranged the timeline correctly!<br><br>The password for the next room is: <strong style="font-size: 1.5em; color: #ffd700;">JUSTICE</strong><br><br>Proceed to <a href="room3.html" style="color: #ffd700; font-weight: bold;">Room 3: Amendment Vault</a>';
+            } else {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ The timeline isn\'t quite right. Review the dates and try again!';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room 3: Amendment Vault</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ff6b6b;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .matching-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .column h3 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .amendment-item, .description-item {
+            background: rgba(139, 0, 0, 0.3);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .amendment-item:hover, .description-item:hover {
+            background: rgba(139, 0, 0, 0.5);
+            transform: translateX(5px);
+        }
+
+        .amendment-item.selected {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #00ff00;
+        }
+
+        .description-item.selected {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #00ff00;
+        }
+
+        .amendment-item.matched, .description-item.matched {
+            background: rgba(0, 255, 0, 0.3);
+            border-color: #00ff00;
+            cursor: default;
+        }
+
+        .amendment-number {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .match-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            color: white;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .hint {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .matching-area {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📜 Room 3: Amendment Vault 📜</h1>
+        <div class="subtitle">Topic: Bill of Rights</div>
+
+        <div class="instructions">
+            <strong>📜 Your Challenge:</strong><br>
+            Match each Constitutional Amendment with its correct description. Click on an amendment on the left, then click on the matching description on the right. When all six are correctly matched, you'll receive the password!
+        </div>
+
+        <div class="matching-area">
+            <div class="column">
+                <h3>🔢 Amendments</h3>
+                <div class="amendment-item" data-id="1" onclick="selectAmendment(this)">
+                    <span class="match-indicator"></span>
+                    <div class="amendment-number">First Amendment</div>
+                </div>
+                <div class="amendment-item" data-id="2" onclick="selectAmendment(this)">
+                    <span class="match-indicator"></span>
+                    <div class="amendment-number">Second Amendment</div>
+                </div>
+                <div class="amendment-item" data-id="4" onclick="selectAmendment(this)">
+                    <span class="match-indicator"></span>
+                    <div class="amendment-number">Fourth Amendment</div>
+                </div>
+                <div class="amendment-item" data-id="5" onclick="selectAmendment(this)">
+                    <span class="match-indicator"></span>
+                    <div class="amendment-number">Fifth Amendment</div>
+                </div>
+                <div class="amendment-item" data-id="6" onclick="selectAmendment(this)">
+                    <span class="match-indicator"></span>
+                    <div class="amendment-number">Sixth Amendment</div>
+                </div>
+                <div class="amendment-item" data-id="8" onclick="selectAmendment(this)">
+                    <span class="match-indicator"></span>
+                    <div class="amendment-number">Eighth Amendment</div>
+                </div>
+            </div>
+
+            <div class="column">
+                <h3>📋 Descriptions</h3>
+                <div class="description-item" data-id="1" onclick="selectDescription(this)">
+                    <span class="match-indicator"></span>
+                    Protects freedom of religion, speech, press, assembly, and petition
+                </div>
+                <div class="description-item" data-id="2" onclick="selectDescription(this)">
+                    <span class="match-indicator"></span>
+                    Protects the right to keep and bear arms
+                </div>
+                <div class="description-item" data-id="4" onclick="selectDescription(this)">
+                    <span class="match-indicator"></span>
+                    Protects against unreasonable searches and seizures
+                </div>
+                <div class="description-item" data-id="5" onclick="selectDescription(this)">
+                    <span class="match-indicator"></span>
+                    Protection against self-incrimination and double jeopardy, guarantees due process
+                </div>
+                <div class="description-item" data-id="6" onclick="selectDescription(this)">
+                    <span class="match-indicator"></span>
+                    Guarantees right to a fair, speedy, public trial and right to counsel
+                </div>
+                <div class="description-item" data-id="8" onclick="selectDescription(this)">
+                    <span class="match-indicator"></span>
+                    Prohibits excessive bail, fines, and cruel and unusual punishment
+                </div>
+            </div>
+        </div>
+
+        <button onclick="checkMatches()">Verify All Matches</button>
+        <div id="message"></div>
+
+        <div class="hint">
+            💡 <strong>Hint:</strong> Think about what each amendment protects. The First is about freedoms of expression, the Second about weapons, the Fourth about privacy, the Fifth about legal protections, the Sixth about trial rights, and the Eighth about punishment.
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Main Hall</a>
+    </div>
+
+    <script>
+        let selectedAmendment = null;
+        let matches = {};
+
+        function selectAmendment(element) {
+            if (element.classList.contains('matched')) return;
+            
+            // Deselect all amendments
+            document.querySelectorAll('.amendment-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Select this one
+            element.classList.add('selected');
+            selectedAmendment = element.getAttribute('data-id');
+        }
+
+        function selectDescription(element) {
+            if (element.classList.contains('matched')) return;
+            if (!selectedAmendment) {
+                alert('Please select an amendment first!');
+                return;
+            }
+            
+            const descId = element.getAttribute('data-id');
+            
+            // If correct match
+            if (selectedAmendment === descId) {
+                // Mark both as matched
+                const amendmentEl = document.querySelector(`.amendment-item[data-id="${selectedAmendment}"]`);
+                amendmentEl.classList.add('matched');
+                amendmentEl.classList.remove('selected');
+                amendmentEl.querySelector('.match-indicator').textContent = '✓';
+                
+                element.classList.add('matched');
+                element.querySelector('.match-indicator').textContent = '✓';
+                
+                matches[selectedAmendment] = descId;
+                selectedAmendment = null;
+                
+                // Check if all matched
+                if (Object.keys(matches).length === 6) {
+                    setTimeout(() => {
+                        document.getElementById('message').className = 'message success';
+                        document.getElementById('message').innerHTML = '🎉 Excellent! All amendments matched correctly!<br><br>The password is: <strong style="font-size: 1.5em; color: #ffd700;">FREEDOM</strong><br><br>Continue to <a href="room4.html" style="color: #ffd700; font-weight: bold;">Room 4: Policy Puzzle</a>';
+                    }, 500);
+                }
+            } else {
+                // Wrong match
+                const messageDiv = document.getElementById('message');
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ That\'s not the right match. Try again!';
+                
+                setTimeout(() => {
+                    messageDiv.textContent = '';
+                    messageDiv.className = '';
+                }, 2000);
+            }
+        }
+
+        function checkMatches() {
+            const messageDiv = document.getElementById('message');
+            
+            if (Object.keys(matches).length === 6) {
+                messageDiv.className = 'message success';
+                messageDiv.innerHTML = '🎉 All amendments correctly matched!<br><br>Password: <strong style="font-size: 1.5em; color: #ffd700;">FREEDOM</strong><br><br>Go to <a href="room4.html" style="color: #ffd700; font-weight: bold;">Room 4: Policy Puzzle</a>';
+            } else {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = `❌ You've only matched ${Object.keys(matches).length} out of 6 amendments. Keep going!`;
+            }
+        }
+    </script>
+</body>
+</html>

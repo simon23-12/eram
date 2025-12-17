@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room 4: Policy Puzzle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ff6b6b;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .sorting-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .category {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            min-height: 400px;
+        }
+
+        .category h3 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        .category.pros {
+            border: 3px solid #00ff00;
+        }
+
+        .category.cons {
+            border: 3px solid #ff6b6b;
+        }
+
+        .dropzone {
+            min-height: 350px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .dropzone.drag-over {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .argument-card {
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+            cursor: move;
+            transition: all 0.3s;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .argument-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .argument-card.dragging {
+            opacity: 0.5;
+        }
+
+        .arguments-pool {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 3px dashed #ffd700;
+        }
+
+        .arguments-pool h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            color: white;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .hint {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .sorting-area {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚖️ Room 4: Policy Puzzle ⚖️</h1>
+        <div class="subtitle">Topic: Affirmative Action</div>
+
+        <div class="instructions">
+            <strong>📜 Your Challenge:</strong><br>
+            Sort the arguments about Affirmative Action into PROs (positive aspects) and CONs (negative aspects or criticisms). Drag each argument card to the correct category. When all arguments are correctly sorted, you'll unlock the next room!
+        </div>
+
+        <div class="arguments-pool" id="argumentsPool">
+            <h3>📋 Arguments to Sort (Drag These)</h3>
+            <div class="argument-card" draggable="true" data-type="pro" data-id="1">
+                Creates a more diverse profile of students in colleges
+            </div>
+            <div class="argument-card" draggable="true" data-type="pro" data-id="2">
+                Helps correct historical errors and systemic discrimination
+            </div>
+            <div class="argument-card" draggable="true" data-type="pro" data-id="3">
+                Provides generational benefits for future children of discriminated groups
+            </div>
+            <div class="argument-card" draggable="true" data-type="con" data-id="4">
+                May be unfair to some students who are denied admission
+            </div>
+            <div class="argument-card" draggable="true" data-type="con" data-id="5">
+                Can result in discrimination against certain ethnicities
+            </div>
+            <div class="argument-card" draggable="true" data-type="con" data-id="6">
+                Not based on skills and merit alone
+            </div>
+            <div class="argument-card" draggable="true" data-type="con" data-id="7">
+                May lead to less qualified graduates
+            </div>
+            <div class="argument-card" draggable="true" data-type="con" data-id="8">
+                Sacrifices competence for the sake of diversity
+            </div>
+        </div>
+
+        <div class="sorting-area">
+            <div class="category pros">
+                <h3>✅ PROS (Positive Aspects)</h3>
+                <div class="dropzone" data-category="pro"></div>
+            </div>
+
+            <div class="category cons">
+                <h3>❌ CONS (Criticisms)</h3>
+                <div class="dropzone" data-category="con"></div>
+            </div>
+        </div>
+
+        <button onclick="checkSorting()">Check My Sorting</button>
+        <div id="message"></div>
+
+        <div class="hint">
+            💡 <strong>Hint:</strong> PROs focus on diversity, correcting historical injustice, and future benefits. CONs focus on fairness concerns, merit-based admission, and potential discrimination. We discussed three main PROS and five main CONS in class.
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Main Hall</a>
+    </div>
+
+    <script>
+        let draggedElement = null;
+
+        // Make cards draggable
+        document.querySelectorAll('.argument-card').forEach(card => {
+            card.addEventListener('dragstart', function(e) {
+                draggedElement = this;
+                this.classList.add('dragging');
+            });
+
+            card.addEventListener('dragend', function(e) {
+                this.classList.remove('dragging');
+            });
+        });
+
+        // Setup dropzones
+        document.querySelectorAll('.dropzone').forEach(zone => {
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+
+            zone.addEventListener('dragleave', function(e) {
+                this.classList.remove('drag-over');
+            });
+
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                this.appendChild(draggedElement);
+            });
+        });
+
+        // Allow returning cards to pool
+        document.getElementById('argumentsPool').addEventListener('dragover', function(e) {
+            e.preventDefault();
+        });
+
+        document.getElementById('argumentsPool').addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.appendChild(draggedElement);
+        });
+
+        function checkSorting() {
+            const dropzones = document.querySelectorAll('.dropzone');
+            let allCorrect = true;
+            let allPlaced = true;
+
+            // Check if all cards are placed
+            const poolCards = document.getElementById('argumentsPool').querySelectorAll('.argument-card');
+            if (poolCards.length > 0) {
+                allPlaced = false;
+            }
+
+            // Check if cards are in correct zones
+            dropzones.forEach(zone => {
+                const category = zone.getAttribute('data-category');
+                const cards = zone.querySelectorAll('.argument-card');
+                
+                cards.forEach(card => {
+                    if (card.getAttribute('data-type') !== category) {
+                        allCorrect = false;
+                    }
+                });
+            });
+
+            const messageDiv = document.getElementById('message');
+
+            if (!allPlaced) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ Please sort all arguments before checking!';
+            } else if (!allCorrect) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ Some arguments are in the wrong category. Review and try again!';
+            } else {
+                messageDiv.className = 'message success';
+                messageDiv.innerHTML = '🎉 Perfect sorting! You understand both sides of the debate!<br><br>The password is: <strong style="font-size: 1.5em; color: #ffd700;">EQUALITY</strong><br><br>Move on to <a href="room5.html" style="color: #ffd700; font-weight: bold;">Room 5: Rhetoric Hall</a>';
+            }
+        }
+    </script>
+</body>
+</html>

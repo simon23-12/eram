@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room 1: The Dream Chamber</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ff6b6b;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .puzzle-area {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .statement {
+            background: rgba(139, 0, 0, 0.3);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .statement:hover {
+            background: rgba(139, 0, 0, 0.5);
+            transform: translateX(5px);
+        }
+
+        .statement.true {
+            border-color: #00ff00;
+            background: rgba(0, 255, 0, 0.2);
+        }
+
+        .statement.false {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .checkbox {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #ffd700;
+            border-radius: 5px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .statement-text {
+            flex: 1;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .answer-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            margin: 10px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            color: white;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .hint {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            .container {
+                padding: 20px;
+            }
+            .statement-text {
+                font-size: 1em;
+            }
+            .checkbox {
+                width: 25px;
+                height: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎄 Room 1: The Dream Chamber 🎄</h1>
+        <div class="subtitle">Topic: The American Dream</div>
+
+        <div class="instructions">
+            <strong>📜 Your Challenge:</strong><br>
+            In this room, you'll find statements about the American Dream. Click on each statement to mark whether you think it's TRUE or FALSE based on what we learned from the video and our discussions. Once you've marked all statements, the correct answers will reveal a password!
+        </div>
+
+        <div class="puzzle-area">
+            <h2 style="color: #ffd700; margin-bottom: 20px;">Mark Each Statement as True or False:</h2>
+            
+            <div class="statement" data-answer="true" onclick="toggleStatement(this)">
+                <div class="checkbox"></div>
+                <div class="statement-text">
+                    The American Dream originated during the colonial period as a concept of building a new life in the "land of opportunity."
+                </div>
+            </div>
+
+            <div class="statement" data-answer="false" onclick="toggleStatement(this)">
+                <div class="checkbox"></div>
+                <div class="statement-text">
+                    The Great Depression strengthened belief in the American Dream and made it more attainable for most Americans.
+                </div>
+            </div>
+
+            <div class="statement" data-answer="true" onclick="toggleStatement(this)">
+                <div class="checkbox"></div>
+                <div class="statement-text">
+                    After World War II, economic reparations helped fund an economic boom in the United States.
+                </div>
+            </div>
+
+            <div class="statement" data-answer="false" onclick="toggleStatement(this)">
+                <div class="checkbox"></div>
+                <div class="statement-text">
+                    According to the video, only about 20% of Americans are below the minimum financial requirement for achieving the American Dream.
+                </div>
+            </div>
+
+            <div class="statement" data-answer="true" onclick="toggleStatement(this)">
+                <div class="checkbox"></div>
+                <div class="statement-text">
+                    The rise of the gig economy has reduced job security and benefits for many workers, with about 59% of jobs being gig work.
+                </div>
+            </div>
+
+            <div class="statement" data-answer="true" onclick="toggleStatement(this)">
+                <div class="checkbox"></div>
+                <div class="statement-text">
+                    High costs for education, healthcare, and living expenses make the American Dream difficult to achieve, requiring about $100,000-$250,000 according to statistics.
+                </div>
+            </div>
+        </div>
+
+        <div class="answer-section">
+            <h3 style="color: #ffd700; margin-bottom: 15px;">🔑 Enter the Password to Continue:</h3>
+            <p>Count how many TRUE statements there are. The password is that number spelled out in lowercase English (example: if there were 2 true statements, you'd enter "two").</p>
+            <input type="text" id="password" placeholder="Enter password here...">
+            <button onclick="checkPassword()">Unlock Next Room</button>
+            <div id="message"></div>
+        </div>
+
+        <div class="hint">
+            💡 <strong>Hint:</strong> Read each statement carefully! Remember what we learned about the colonial period, the Great Depression, post-WWII boom, and the current challenges facing the American Dream.
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Main Hall</a>
+    </div>
+
+    <script>
+        const statements = {};
+
+        function toggleStatement(element) {
+            const correctAnswer = element.getAttribute('data-answer');
+            
+            if (element.classList.contains('true') || element.classList.contains('false')) {
+                // Toggle off
+                element.classList.remove('true', 'false');
+                element.querySelector('.checkbox').textContent = '';
+                delete statements[element.getAttribute('data-answer')];
+            } else {
+                // User needs to decide
+                const userAnswer = prompt('Is this statement TRUE or FALSE? (Type "true" or "false")');
+                if (userAnswer && (userAnswer.toLowerCase() === 'true' || userAnswer.toLowerCase() === 'false')) {
+                    element.classList.add(userAnswer.toLowerCase());
+                    element.querySelector('.checkbox').textContent = userAnswer.toLowerCase() === 'true' ? '✓' : '✗';
+                    
+                    // Check if correct
+                    if (userAnswer.toLowerCase() === correctAnswer) {
+                        setTimeout(() => {
+                            element.style.borderColor = '#00ff00';
+                        }, 100);
+                    } else {
+                        setTimeout(() => {
+                            element.style.borderColor = '#ff0000';
+                        }, 100);
+                    }
+                }
+            }
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('password').value.toLowerCase().trim();
+            const messageDiv = document.getElementById('message');
+            
+            // Count TRUE statements (answer is "four")
+            if (password === 'four') {
+                messageDiv.className = 'message success';
+                messageDiv.innerHTML = '🎉 Correct! The password is FOUR!<br>You may now proceed to <a href="room2.html" style="color: #ffd700; font-weight: bold;">Room 2: Rights Corridor</a>';
+            } else {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ Incorrect password. Review the statements and count the TRUE ones carefully!';
+            }
+        }
+    </script>
+</body>
+</html>

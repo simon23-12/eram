@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room 5: Rhetoric Hall</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            border: 3px solid #d4af37;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ff6b6b;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .speech-excerpt {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #ffd700;
+            font-style: italic;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .highlight {
+            background: rgba(255, 215, 0, 0.3);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .question-section {
+            background: rgba(139, 0, 0, 0.3);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+        }
+
+        .question-title {
+            font-size: 1.3em;
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #ffd700;
+        }
+
+        .option.correct {
+            background: rgba(0, 255, 0, 0.3);
+            border-color: #00ff00;
+        }
+
+        .option.wrong {
+            background: rgba(255, 0, 0, 0.3);
+            border-color: #ff0000;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            color: white;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .hint {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            .container {
+                padding: 20px;
+            }
+            .speech-excerpt {
+                font-size: 1em;
+                padding: 15px;
+            }
+            .question-title {
+                font-size: 1.1em;
+            }
+            .option {
+                padding: 12px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 Room 5: Rhetoric Hall 🎤</h1>
+        <div class="subtitle">Topic: Hillary Clinton's Speech on American Exceptionalism</div>
+
+        <div class="instructions">
+            <strong>📜 Your Challenge:</strong><br>
+            Read the excerpt from Hillary Clinton's speech and answer questions about the stylistic devices she uses and the concept of American exceptionalism. Select the correct answer for each question to unlock the final room!
+        </div>
+
+        <div class="speech-excerpt">
+            <p>"Good evening, my friends. Thank you for being here tonight — not just to talk about politics, but to talk about purpose. Because at our best, America has always been more than a place on a map. It's been an idea — an idea that says, no matter where you start, you can build a better life for yourself, your family, and your community."</p>
+            <br>
+            <p>"American exceptionalism isn't a claim that we're perfect. Far from it. It's a promise — a commitment to keep striving, to keep <span class="highlight">bending that long arc of history toward justice</span>, even when it's hard."</p>
+            <br>
+            <p>"Think about it: <span class="highlight">from Seneca Falls to Selma, from Stonewall to Silicon Valley</span>, each generation has taken up the work of making America live up to its own ideals."</p>
+        </div>
+
+        <div class="question-section">
+            <div class="question-title">Question 1: What does Clinton mean by American exceptionalism?</div>
+            <div class="option" data-question="1" data-correct="true" onclick="selectOption(this)">
+                A promise and commitment to keep striving for justice and living up to ideals, not a claim of perfection
+            </div>
+            <div class="option" data-question="1" data-correct="false" onclick="selectOption(this)">
+                America being superior to all other nations in every way
+            </div>
+            <div class="option" data-question="1" data-correct="false" onclick="selectOption(this)">
+                The exceptional geography and natural resources of America
+            </div>
+        </div>
+
+        <div class="question-section">
+            <div class="question-title">Question 2: The phrase "bending that long arc of history toward justice" is an example of:</div>
+            <div class="option" data-question="2" data-correct="false" onclick="selectOption(this)">
+                Hyperbole (extreme exaggeration)
+            </div>
+            <div class="option" data-question="2" data-correct="true" onclick="selectOption(this)">
+                Metaphor (comparing progress to bending an arc without using "like" or "as")
+            </div>
+            <div class="option" data-question="2" data-correct="false" onclick="selectOption(this)">
+                Alliteration (repetition of initial consonant sounds)
+            </div>
+        </div>
+
+        <div class="question-section">
+            <div class="question-title">Question 3: "From Seneca Falls to Selma, from Stonewall to Silicon Valley" demonstrates which stylistic device?</div>
+            <div class="option" data-question="3" data-correct="false" onclick="selectOption(this)">
+                Personification (giving human qualities to non-human things)
+            </div>
+            <div class="option" data-question="3" data-correct="true" onclick="selectOption(this)">
+                Alliteration (repetition of the "S" sound) and historical references/allusions
+            </div>
+            <div class="option" data-question="3" data-correct="false" onclick="selectOption(this)">
+                Simile (comparison using "like" or "as")
+            </div>
+        </div>
+
+        <div class="question-section">
+            <div class="question-title">Question 4: What is the primary purpose of Clinton using historical references like Seneca Falls and Selma?</div>
+            <div class="option" data-question="4" data-correct="false" onclick="selectOption(this)">
+                To show off her knowledge of American history
+            </div>
+            <div class="option" data-question="4" data-correct="true" onclick="selectOption(this)">
+                To connect different struggles for rights and show ongoing American progress toward equality
+            </div>
+            <div class="option" data-question="4" data-correct="false" onclick="selectOption(this)">
+                To criticize past American failures
+            </div>
+        </div>
+
+        <button onclick="checkAllAnswers()">Submit All Answers</button>
+        <div id="message"></div>
+
+        <div class="hint">
+            💡 <strong>Hint:</strong> Pay attention to how Clinton frames exceptionalism as aspiration rather than arrogance. Notice the metaphorical language about "bending arcs" and the alliterative pattern in the historical references. Think about why she chose these specific examples.
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Main Hall</a>
+    </div>
+
+    <script>
+        const answers = {
+            1: null,
+            2: null,
+            3: null,
+            4: null
+        };
+
+        function selectOption(element) {
+            const questionNum = element.getAttribute('data-question');
+            const isCorrect = element.getAttribute('data-correct') === 'true';
+            
+            // Deselect all options in this question
+            document.querySelectorAll(`[data-question="${questionNum}"]`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Select this option
+            element.classList.add('selected');
+            answers[questionNum] = isCorrect;
+        }
+
+        function checkAllAnswers() {
+            const messageDiv = document.getElementById('message');
+            
+            // Check if all questions answered
+            if (Object.values(answers).includes(null)) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ Please answer all questions before submitting!';
+                return;
+            }
+
+            // Check if all correct
+            const allCorrect = Object.values(answers).every(val => val === true);
+
+            if (allCorrect) {
+                // Show correct/wrong on each option
+                document.querySelectorAll('.option').forEach(opt => {
+                    if (opt.classList.contains('selected')) {
+                        if (opt.getAttribute('data-correct') === 'true') {
+                            opt.classList.add('correct');
+                        } else {
+                            opt.classList.add('wrong');
+                        }
+                    }
+                });
+
+                messageDiv.className = 'message success';
+                messageDiv.innerHTML = '🎉 Perfect! You\'ve mastered rhetorical analysis!<br><br>The password is: <strong style="font-size: 1.5em; color: #ffd700;">RHETORIC</strong><br><br>Proceed to <a href="room6.html" style="color: #ffd700; font-weight: bold;">Room 6: The Final Challenge!</a>';
+            } else {
+                // Show which are wrong
+                document.querySelectorAll('.option').forEach(opt => {
+                    if (opt.classList.contains('selected')) {
+                        if (opt.getAttribute('data-correct') === 'true') {
+                            opt.classList.add('correct');
+                        } else {
+                            opt.classList.add('wrong');
+                        }
+                    }
+                });
+
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '❌ Some answers are incorrect. Review the highlighted answers and try again!';
+                
+                // Allow retry
+                setTimeout(() => {
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('correct', 'wrong');
+                    });
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

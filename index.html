@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr Fuhs' Great X-Mas Escape Room</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Snowflake animation */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            text-align: center;
+            border: 3px solid #d4af37;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            color: #ff6b6b;
+            font-style: italic;
+        }
+
+        .intro {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: left;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .room-card {
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid #ffd700;
+            position: relative;
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .room-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .room-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .room-topic {
+            font-size: 0.9em;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .locked::after {
+            content: "🔒";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+        }
+
+        .ornament {
+            font-size: 2em;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ornament">🎄 ⭐ 🎅 ⭐ 🎄</div>
+        <h1>Mr Fuhs' Great X-Mas Escape Room</h1>
+        <div class="subtitle">A Challenge Through American History & Politics</div>
+        
+        <div class="intro">
+            <p><strong>Welcome, brave student!</strong></p>
+            <p>You've been locked in a mysterious Christmas mansion filled with puzzles about everything we've learned this semester. To escape before Santa arrives, you must solve challenges about the American Dream, Civil Rights, Constitutional Amendments, and more!</p>
+            <p><strong>Rules:</strong></p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Complete each room in order</li>
+                <li>Solve the puzzle to get the password for the next room</li>
+                <li>Pay attention to details - everything counts!</li>
+                <li>Good luck, and may the spirit of learning guide you! 🎓✨</li>
+            </ul>
+        </div>
+
+        <div class="rooms-grid">
+            <a href="room1.html" class="room-card">
+                <div class="room-number">Room 1</div>
+                <div class="room-title">The Dream Chamber</div>
+                <div class="room-topic">American Dream</div>
+            </a>
+
+            <a href="room2.html" class="room-card locked">
+                <div class="room-number">Room 2</div>
+                <div class="room-title">Rights Corridor</div>
+                <div class="room-topic">Civil Rights</div>
+            </a>
+
+            <a href="room3.html" class="room-card locked">
+                <div class="room-number">Room 3</div>
+                <div class="room-title">Amendment Vault</div>
+                <div class="room-topic">Bill of Rights</div>
+            </a>
+
+            <a href="room4.html" class="room-card locked">
+                <div class="room-number">Room 4</div>
+                <div class="room-title">Policy Puzzle</div>
+                <div class="room-topic">Affirmative Action</div>
+            </a>
+
+            <a href="room5.html" class="room-card locked">
+                <div class="room-number">Room 5</div>
+                <div class="room-title">Rhetoric Hall</div>
+                <div class="room-topic">Speech Analysis</div>
+            </a>
+
+            <a href="room6.html" class="room-card locked">
+                <div class="room-number">Room 6</div>
+                <div class="room-title">Freedom Exit</div>
+                <div class="room-topic">Final Challenge</div>
+            </a>
+        </div>
+
+        <div class="ornament" style="margin-top: 30px;">🎁 🌟 🔔 🌟 🎁</div>
+    </div>
+
+    <script>
+        // Create snowflakes
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            
+            document.body.appendChild(snowflake);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        setInterval(createSnowflake, 200);
+    </script>
+</body>
+</html>
