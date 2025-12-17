@@ -102,6 +102,12 @@
             opacity: 0.5;
         }
 
+        .event-card.selected {
+            border: 4px solid #00ff00 !important;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+            transform: scale(1.05);
+        }
+
         .events-pool {
             background: rgba(255, 255, 255, 0.05);
             padding: 20px;
@@ -199,7 +205,9 @@
 
         <div class="instructions">
             <strong>📜 Your Challenge:</strong><br>
-            Drag and drop the Civil Rights Movement events to arrange them in chronological order from earliest (1955) to latest (1964). When all events are correctly placed, the password will be revealed!
+            Arrange the Civil Rights Movement events in chronological order from earliest (1955) to latest (1964).<br><br>
+            <strong>💻 Desktop:</strong> Drag and drop the cards<br>
+            <strong>📱 iPad/Mobile:</strong> Tap a card to select it (green border), then tap a timeline slot to place it
         </div>
 
         <div class="timeline-area">
@@ -281,11 +289,13 @@
                 // Also add click-to-select functionality for touch devices
                 card.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    if (selectedCard) {
-                        selectedCard.style.border = '2px solid #ffd700';
-                    }
+                    // Remove selection from all cards
+                    document.querySelectorAll('.event-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+                    // Select this card
                     selectedCard = this;
-                    this.style.border = '4px solid #00ff00';
+                    this.classList.add('selected');
                 });
             });
 
@@ -328,13 +338,13 @@
                         const existingCard = this.querySelector('.event-card');
                         if (existingCard && existingCard !== selectedCard) {
                             document.getElementById('eventsPool').appendChild(existingCard);
-                            existingCard.style.border = '2px solid #ffd700';
+                            existingCard.classList.remove('selected');
                         }
                         
                         // Place the selected card here
                         this.appendChild(selectedCard);
                         this.classList.add('filled');
-                        selectedCard.style.border = '2px solid #ffd700';
+                        selectedCard.classList.remove('selected');
                         selectedCard = null;
                     }
                 });
@@ -369,7 +379,7 @@
             eventsPool.addEventListener('click', function(e) {
                 if (selectedCard && !e.target.classList.contains('event-card')) {
                     this.appendChild(selectedCard);
-                    selectedCard.style.border = '2px solid #ffd700';
+                    selectedCard.classList.remove('selected');
                     selectedCard = null;
                     
                     // Remove filled class from zones
