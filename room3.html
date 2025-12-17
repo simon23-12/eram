@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room 3: Amendment Vault</title>
+    <title>Room 2: Rights Corridor</title>
     <style>
         * {
             margin: 0;
@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 40px;
             background: rgba(0, 0, 0, 0.8);
@@ -51,62 +51,76 @@
             border-left: 4px solid #ffd700;
         }
 
-        .matching-area {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+        .timeline-area {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
             margin-bottom: 30px;
         }
 
-        .column h3 {
-            color: #ffd700;
-            margin-bottom: 20px;
-            text-align: center;
+        .dropzone {
+            min-height: 80px;
+            background: rgba(139, 0, 0, 0.3);
+            border: 3px dashed #ffd700;
+            border-radius: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
         }
 
-        .amendment-item, .description-item {
-            background: rgba(139, 0, 0, 0.3);
-            padding: 15px;
-            margin: 10px 0;
+        .dropzone.drag-over {
+            background: rgba(255, 215, 0, 0.3);
+            border-style: solid;
+        }
+
+        .dropzone.filled {
+            background: rgba(0, 100, 0, 0.3);
+            border-color: #00ff00;
+        }
+
+        .event-card {
+            background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+            padding: 15px 20px;
             border-radius: 10px;
             border: 2px solid #ffd700;
-            cursor: pointer;
+            cursor: move;
+            margin: 10px;
+            display: inline-block;
             transition: all 0.3s;
-            position: relative;
+            font-size: 1.1em;
         }
 
-        .amendment-item:hover, .description-item:hover {
-            background: rgba(139, 0, 0, 0.5);
-            transform: translateX(5px);
+        .event-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
         }
 
-        .amendment-item.selected {
-            background: rgba(255, 215, 0, 0.3);
-            border-color: #00ff00;
+        .event-card.dragging {
+            opacity: 0.5;
         }
 
-        .description-item.selected {
-            background: rgba(255, 215, 0, 0.3);
-            border-color: #00ff00;
+        .event-card.selected {
+            border: 4px solid #00ff00 !important;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+            transform: scale(1.05);
         }
 
-        .amendment-item.matched, .description-item.matched {
-            background: rgba(0, 255, 0, 0.3);
-            border-color: #00ff00;
-            cursor: default;
+        .events-pool {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            min-height: 100px;
         }
 
-        .amendment-number {
+        .date-label {
             font-size: 1.3em;
-            font-weight: bold;
             color: #ffd700;
-        }
-
-        .match-indicator {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
         button {
@@ -168,159 +182,238 @@
         }
 
         @media (max-width: 768px) {
-            .matching-area {
-                grid-template-columns: 1fr;
+            h1 {
+                font-size: 2em;
+            }
+            .container {
+                padding: 20px;
+            }
+            .event-card {
+                font-size: 1em;
+                padding: 12px 15px;
+            }
+            .date-label {
+                font-size: 1.1em;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📜 Room 3: Amendment Vault 📜</h1>
-        <div class="subtitle">Topic: Bill of Rights</div>
+        <h1>✊ Room 2: Rights Corridor ✊</h1>
+        <div class="subtitle">Topic: Civil Rights Movement</div>
 
         <div class="instructions">
             <strong>📜 Your Challenge:</strong><br>
-            Match each Constitutional Amendment with its correct description. Click on an amendment on the left, then click on the matching description on the right. When all six are correctly matched, you'll receive the password!
+            Arrange the Civil Rights Movement events in chronological order from earliest (1955) to latest (1964).<br><br>
+            <strong>💻 Desktop:</strong> Drag and drop the cards<br>
+            <strong>📱 iPad/Mobile:</strong> Tap a card to select it (green border), then tap a timeline slot to place it
         </div>
 
-        <div class="matching-area">
-            <div class="column">
-                <h3>🔢 Amendments</h3>
-                <div class="amendment-item" data-id="1" onclick="selectAmendment(this)">
-                    <span class="match-indicator"></span>
-                    <div class="amendment-number">First Amendment</div>
-                </div>
-                <div class="amendment-item" data-id="2" onclick="selectAmendment(this)">
-                    <span class="match-indicator"></span>
-                    <div class="amendment-number">Second Amendment</div>
-                </div>
-                <div class="amendment-item" data-id="4" onclick="selectAmendment(this)">
-                    <span class="match-indicator"></span>
-                    <div class="amendment-number">Fourth Amendment</div>
-                </div>
-                <div class="amendment-item" data-id="5" onclick="selectAmendment(this)">
-                    <span class="match-indicator"></span>
-                    <div class="amendment-number">Fifth Amendment</div>
-                </div>
-                <div class="amendment-item" data-id="6" onclick="selectAmendment(this)">
-                    <span class="match-indicator"></span>
-                    <div class="amendment-number">Sixth Amendment</div>
-                </div>
-                <div class="amendment-item" data-id="8" onclick="selectAmendment(this)">
-                    <span class="match-indicator"></span>
-                    <div class="amendment-number">Eighth Amendment</div>
-                </div>
-            </div>
+        <div class="timeline-area">
+            <h2 style="color: #ffd700; margin-bottom: 20px;">📅 Timeline (Earliest to Latest):</h2>
+            
+            <div class="date-label">1. December 1955</div>
+            <div class="dropzone" data-event="rosa"></div>
 
-            <div class="column">
-                <h3>📋 Descriptions</h3>
-                <div class="description-item" data-id="1" onclick="selectDescription(this)">
-                    <span class="match-indicator"></span>
-                    Protects freedom of religion, speech, press, assembly, and petition
-                </div>
-                <div class="description-item" data-id="2" onclick="selectDescription(this)">
-                    <span class="match-indicator"></span>
-                    Protects the right to keep and bear arms
-                </div>
-                <div class="description-item" data-id="4" onclick="selectDescription(this)">
-                    <span class="match-indicator"></span>
-                    Protects against unreasonable searches and seizures
-                </div>
-                <div class="description-item" data-id="5" onclick="selectDescription(this)">
-                    <span class="match-indicator"></span>
-                    Protection against self-incrimination and double jeopardy, guarantees due process
-                </div>
-                <div class="description-item" data-id="6" onclick="selectDescription(this)">
-                    <span class="match-indicator"></span>
-                    Guarantees right to a fair, speedy, public trial and right to counsel
-                </div>
-                <div class="description-item" data-id="8" onclick="selectDescription(this)">
-                    <span class="match-indicator"></span>
-                    Prohibits excessive bail, fines, and cruel and unusual punishment
-                </div>
+            <div class="date-label">2. 1955-1956</div>
+            <div class="dropzone" data-event="boycott"></div>
+
+            <div class="date-label">3. 1963 (Spring)</div>
+            <div class="dropzone" data-event="birmingham"></div>
+
+            <div class="date-label">4. August 1963</div>
+            <div class="dropzone" data-event="march"></div>
+
+            <div class="date-label">5. 1964</div>
+            <div class="dropzone" data-event="civilact"></div>
+
+            <div class="date-label">6. After 1964</div>
+            <div class="dropzone" data-event="continue"></div>
+        </div>
+
+        <div class="events-pool" id="eventsPool">
+            <h3 style="color: #ffd700; margin-bottom: 15px;">📋 Events (Drag These):</h3>
+            <div class="event-card" draggable="true" data-id="rosa">
+                Rosa Parks refuses to give up her seat on a bus
+            </div>
+            <div class="event-card" draggable="true" data-id="boycott">
+                Montgomery Bus Boycott takes place
+            </div>
+            <div class="event-card" draggable="true" data-id="birmingham">
+                Birmingham Campaign with nonviolent protests
+            </div>
+            <div class="event-card" draggable="true" data-id="march">
+                March on Washington - MLK delivers "I Have a Dream" speech
+            </div>
+            <div class="event-card" draggable="true" data-id="civilact">
+                Civil Rights Act is signed into law
+            </div>
+            <div class="event-card" draggable="true" data-id="continue">
+                Civil Rights Movement continues despite the new law
             </div>
         </div>
 
-        <button onclick="checkMatches()">Verify All Matches</button>
+        <button onclick="checkOrder()">Check My Timeline</button>
         <div id="message"></div>
 
         <div class="hint">
-            💡 <strong>Hint:</strong> Think about what each amendment protects. The First is about freedoms of expression, the Second about weapons, the Fourth about privacy, the Fifth about legal protections, the Sixth about trial rights, and the Eighth about punishment.
+            💡 <strong>Hint:</strong> Remember Rosa Parks' action was the catalyst that started it all in December 1955. The movement built momentum through boycotts, campaigns, and culminated in the March on Washington before the Civil Rights Act was signed.
         </div>
 
         <a href="index.html" class="back-link">← Back to Main Hall</a>
     </div>
 
     <script>
-        let selectedAmendment = null;
-        let matches = {};
+        let draggedElement = null;
+        let selectedCard = null;
 
-        function selectAmendment(element) {
-            if (element.classList.contains('matched')) return;
-            
-            // Deselect all amendments
-            document.querySelectorAll('.amendment-item').forEach(item => {
-                item.classList.remove('selected');
+        // Initialize drag functionality
+        function initializeDragAndDrop() {
+            // Make cards draggable
+            document.querySelectorAll('.event-card').forEach(card => {
+                // Set draggable attribute
+                card.setAttribute('draggable', 'true');
+                
+                card.addEventListener('dragstart', function(e) {
+                    draggedElement = this;
+                    this.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/html', this.innerHTML);
+                });
+
+                card.addEventListener('dragend', function(e) {
+                    this.classList.remove('dragging');
+                });
+
+                // Also add click-to-select functionality for touch devices
+                card.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // Remove selection from all cards
+                    document.querySelectorAll('.event-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+                    // Select this card
+                    selectedCard = this;
+                    this.classList.add('selected');
+                });
             });
-            
-            // Select this one
-            element.classList.add('selected');
-            selectedAmendment = element.getAttribute('data-id');
-        }
 
-        function selectDescription(element) {
-            if (element.classList.contains('matched')) return;
-            if (!selectedAmendment) {
-                alert('Please select an amendment first!');
-                return;
-            }
+            // Setup dropzones
+            document.querySelectorAll('.dropzone').forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    this.classList.add('drag-over');
+                });
+
+                zone.addEventListener('dragleave', function(e) {
+                    this.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.remove('drag-over');
+                    
+                    if (draggedElement) {
+                        // If zone already has a card, return it to pool
+                        const existingCard = this.querySelector('.event-card');
+                        if (existingCard) {
+                            document.getElementById('eventsPool').appendChild(existingCard);
+                            existingCard.style.border = '2px solid #ffd700';
+                        }
+                        
+                        // Place the dragged card here
+                        this.appendChild(draggedElement);
+                        this.classList.add('filled');
+                        draggedElement.style.border = '2px solid #ffd700';
+                    }
+                });
+
+                // Click functionality for touch devices
+                zone.addEventListener('click', function(e) {
+                    if (selectedCard) {
+                        // If zone already has a card, return it to pool
+                        const existingCard = this.querySelector('.event-card');
+                        if (existingCard && existingCard !== selectedCard) {
+                            document.getElementById('eventsPool').appendChild(existingCard);
+                            existingCard.classList.remove('selected');
+                        }
+                        
+                        // Place the selected card here
+                        this.appendChild(selectedCard);
+                        this.classList.add('filled');
+                        selectedCard.classList.remove('selected');
+                        selectedCard = null;
+                    }
+                });
+            });
+
+            // Allow returning cards to pool
+            const eventsPool = document.getElementById('eventsPool');
             
-            const descId = element.getAttribute('data-id');
-            
-            // If correct match
-            if (selectedAmendment === descId) {
-                // Mark both as matched
-                const amendmentEl = document.querySelector(`.amendment-item[data-id="${selectedAmendment}"]`);
-                amendmentEl.classList.add('matched');
-                amendmentEl.classList.remove('selected');
-                amendmentEl.querySelector('.match-indicator').textContent = '✓';
+            eventsPool.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            });
+
+            eventsPool.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 
-                element.classList.add('matched');
-                element.querySelector('.match-indicator').textContent = '✓';
-                
-                matches[selectedAmendment] = descId;
-                selectedAmendment = null;
-                
-                // Check if all matched
-                if (Object.keys(matches).length === 6) {
-                    setTimeout(() => {
-                        document.getElementById('message').className = 'message success';
-                        document.getElementById('message').innerHTML = '🎉 Excellent! All amendments matched correctly!<br><br>The password is: <strong style="font-size: 1.5em; color: #ffd700;">FREEDOM</strong><br><br>Continue to <a href="room4.html" style="color: #ffd700; font-weight: bold;">Room 4: Policy Puzzle</a>';
-                    }, 500);
+                if (draggedElement) {
+                    this.appendChild(draggedElement);
+                    draggedElement.style.border = '2px solid #ffd700';
+                    
+                    // Remove filled class from zones
+                    document.querySelectorAll('.dropzone').forEach(zone => {
+                        if (!zone.querySelector('.event-card')) {
+                            zone.classList.remove('filled');
+                        }
+                    });
                 }
-            } else {
-                // Wrong match
-                const messageDiv = document.getElementById('message');
-                messageDiv.className = 'message error';
-                messageDiv.textContent = '❌ That\'s not the right match. Try again!';
-                
-                setTimeout(() => {
-                    messageDiv.textContent = '';
-                    messageDiv.className = '';
-                }, 2000);
-            }
+            });
+
+            // Click on pool to return selected card
+            eventsPool.addEventListener('click', function(e) {
+                if (selectedCard && !e.target.classList.contains('event-card')) {
+                    this.appendChild(selectedCard);
+                    selectedCard.classList.remove('selected');
+                    selectedCard = null;
+                    
+                    // Remove filled class from zones
+                    document.querySelectorAll('.dropzone').forEach(zone => {
+                        if (!zone.querySelector('.event-card')) {
+                            zone.classList.remove('filled');
+                        }
+                    });
+                }
+            });
         }
 
-        function checkMatches() {
+        // Initialize when page loads
+        initializeDragAndDrop();
+
+        function checkOrder() {
+            const dropzones = document.querySelectorAll('.dropzone');
+            let correct = true;
+            
+            dropzones.forEach(zone => {
+                const card = zone.querySelector('.event-card');
+                if (!card || card.getAttribute('data-id') !== zone.getAttribute('data-event')) {
+                    correct = false;
+                }
+            });
+
             const messageDiv = document.getElementById('message');
             
-            if (Object.keys(matches).length === 6) {
+            if (correct) {
                 messageDiv.className = 'message success';
-                messageDiv.innerHTML = '🎉 All amendments correctly matched!<br><br>Password: <strong style="font-size: 1.5em; color: #ffd700;">FREEDOM</strong><br><br>Go to <a href="room4.html" style="color: #ffd700; font-weight: bold;">Room 4: Policy Puzzle</a>';
+                messageDiv.innerHTML = '🎉 Perfect! You\'ve arranged the timeline correctly!<br><br>The password for the next room is: <strong style="font-size: 1.5em; color: #ffd700;">JUSTICE</strong><br><br>Proceed to <a href="room3.html" style="color: #ffd700; font-weight: bold;">Room 3: Amendment Vault</a>';
             } else {
                 messageDiv.className = 'message error';
-                messageDiv.textContent = `❌ You've only matched ${Object.keys(matches).length} out of 6 amendments. Keep going!`;
+                messageDiv.textContent = '❌ The timeline isn\'t quite right. Review the dates and try again!';
             }
         }
     </script>
